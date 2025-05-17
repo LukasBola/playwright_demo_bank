@@ -53,7 +53,6 @@ Możemy też wykonać kombinacje --repeat-each oraz --reties
 
 więcej tutaj: https://jaktestowac.pl/lesson/pw1s01l03b/
 
-
 ### Prettier
 
 - install Prettier  

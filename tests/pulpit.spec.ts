@@ -22,10 +22,14 @@ const SHOW_MESSAGES_LOCATOR = '#show_messages';
 const TOPUP_RECEIVER_LOCATOR = '#widget_1_topup_receiver';
 const TOPUP_AMOUNT_LOCATOR = '#widget_1_topup_amount';
 
+const expectedTransferMessage = `Przelew wykonany! Chuck Demobankowy - ${TRANSFER_AMOUNT},00PLN - zwrot srodkow`;
+const expectedTopupMessage = `Doładowanie wykonane! ${TOPUP_AMOUNT},00PLN na numer 500 xxx xxx`;
+
 test.describe('Pulpit tests', () => {
   // test.describe.configure({ retries: 3 })
 
   test('quick payment data', async ({ page }) => {
+    // Act
     await page.goto(BASE_URL);
     await page.getByTestId(LOGIN_INPUT_LOCATOR).fill(LOGIN);
     await page.getByTestId(PASSWORD_INPUT_LOCATOR).fill(PASSWORD);
@@ -36,12 +40,15 @@ test.describe('Pulpit tests', () => {
     await page.locator(TRANSFER_TITLE_LOCATOR).fill(TRANSFER_TITLE);
     await page.getByRole('button', { name: 'wykonaj' }).click();
     await page.getByTestId(CLOSE_BUTTON_LOCATOR).click();
+
+    // Assert
     await expect(page.locator(SHOW_MESSAGES_LOCATOR)).toHaveText(
-      `Przelew wykonany! Chuck Demobankowy - ${TRANSFER_AMOUNT},00PLN - zwrot srodkow`,
+      expectedTransferMessage,
     );
   });
 
   test('successful mobile top-up', async ({ page }) => {
+    // Act
     await page.goto(BASE_URL);
     await page.getByTestId(LOGIN_INPUT_LOCATOR).fill(LOGIN);
     await page.getByTestId(PASSWORD_INPUT_LOCATOR).fill(PASSWORD);
@@ -57,8 +64,10 @@ test.describe('Pulpit tests', () => {
       .check();
     await page.getByRole('button', { name: 'doładuj telefon' }).click();
     await page.getByTestId(CLOSE_BUTTON_LOCATOR).click();
+
+    // Assert
     await expect(page.locator(SHOW_MESSAGES_LOCATOR)).toHaveText(
-      `Doładowanie wykonane! ${TOPUP_AMOUNT},00PLN na numer 500 xxx xxx`,
+      expectedTopupMessage,
     );
   });
 });
