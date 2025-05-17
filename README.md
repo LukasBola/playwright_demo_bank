@@ -52,3 +52,30 @@ Możemy też wykonać kombinacje --repeat-each oraz --reties
 `npx playwright test tests/pulpit.spec.ts --repeat-each=10 --retries=3`
 
 więcej tutaj: https://jaktestowac.pl/lesson/pw1s01l03b/
+
+
+### Prettier
+
+- install Prettier  
+  `npm install --save-dev --save-exact prettier`
+- configure Prettier
+
+  - exlude files in `.prettierignore`
+
+    ```
+    package-lock.json
+    playwright-report
+    test-results
+
+    ```
+
+  - set rules in `.prettierrc.json`
+    ```
+    {
+        "singleQuote": true
+    }
+    ```
+
+- run Prettier  
+  `npx prettier --write .`
+- additionaly you can install VSC extension: **Prettier**
