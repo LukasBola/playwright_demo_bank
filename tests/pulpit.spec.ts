@@ -1,48 +1,58 @@
 import { test, expect } from "@playwright/test";
 
+//Arrange
+// constants
+const BASE_URL = "https://demo-bank.vercel.app/";
+const LOGIN = "lukaszbo";
+const PASSWORD = "1345lsda";
+const TRANSFER_AMOUNT = "150";
+const TRANSFER_TITLE = "zwrot srodkow";
+const TOPUP_RECEIVER = "500 xxx xxx";
+const TOPUP_AMOUNT = "150";
+
+// locators
+const LOGIN_INPUT_LOCATOR = 'login-input';
+const PASSWORD_INPUT_LOCATOR = 'password-input';
+const LOGIN_BUTTON_LOCATOR = 'login-button';
+const TRANSFER_RECEIVER_LOCATOR = '#widget_1_transfer_receiver';
+const TRANSFER_AMOUNT_LOCATOR = '#widget_1_transfer_amount';
+const TRANSFER_TITLE_LOCATOR = '#widget_1_transfer_title';
+const CLOSE_BUTTON_LOCATOR = 'close-button';
+const SHOW_MESSAGES_LOCATOR = '#show_messages';
+const TOPUP_RECEIVER_LOCATOR = '#widget_1_topup_receiver';
+const TOPUP_AMOUNT_LOCATOR = '#widget_1_topup_amount';
+
 test.describe("Pulpit tests", () => {
 
     // test.describe.configure({ retries: 3 })
 
     test("quick payment data", async ({ page }) => {
-        
-        await page.goto("https://demo-bank.vercel.app/");
-        await page.getByTestId("login-input").fill("lukaszbo");
-        await page.getByTestId("password-input").fill("1345lsda");
-        await page.getByTestId("login-button").click();
-
+        await page.goto(BASE_URL);
+        await page.getByTestId(LOGIN_INPUT_LOCATOR).fill(LOGIN);
+        await page.getByTestId(PASSWORD_INPUT_LOCATOR).fill(PASSWORD);
+        await page.getByTestId(LOGIN_BUTTON_LOCATOR).click();
         await page.waitForLoadState("load");
-
-        await page.locator('#widget_1_transfer_receiver').selectOption('2');
-        await page.locator('#widget_1_transfer_amount').fill('150');
-        await page.locator('#widget_1_transfer_title').fill('zwrot srodkow');
+        await page.locator(TRANSFER_RECEIVER_LOCATOR).selectOption('2');
+        await page.locator(TRANSFER_AMOUNT_LOCATOR).fill(TRANSFER_AMOUNT);
+        await page.locator(TRANSFER_TITLE_LOCATOR).fill(TRANSFER_TITLE);
         await page.getByRole('button', { name: 'wykonaj' }).click();
-        await page.getByTestId('close-button').click();
-
-        await expect(page.locator('#show_messages')).toHaveText('Przelew wykonany! Chuck Demobankowy - 150,00PLN - zwrot srodkow');
-        
+        await page.getByTestId(CLOSE_BUTTON_LOCATOR).click();
+        await expect(page.locator(SHOW_MESSAGES_LOCATOR)).toHaveText(`Przelew wykonany! Chuck Demobankowy - ${TRANSFER_AMOUNT},00PLN - zwrot srodkow`);
     });
 
-        test("successful mobile top-up", async ({ page }) => {
-        
-        await page.goto("https://demo-bank.vercel.app/");
-        await page.getByTestId("login-input").fill("lukaszbo");
-        await page.getByTestId("password-input").fill("1345lsda");
-        await page.getByTestId("login-button").click();
-
+    test("successful mobile top-up", async ({ page }) => {
+        await page.goto(BASE_URL);
+        await page.getByTestId(LOGIN_INPUT_LOCATOR).fill(LOGIN);
+        await page.getByTestId(PASSWORD_INPUT_LOCATOR).fill(PASSWORD);
+        await page.getByTestId(LOGIN_BUTTON_LOCATOR).click();
         await page.waitForLoadState("load");
-
-        await page.locator('#widget_1_topup_receiver').selectOption('500 xxx xxx');
-        await page.locator('#widget_1_topup_amount').fill('150');
+        await page.locator(TOPUP_RECEIVER_LOCATOR).selectOption(TOPUP_RECEIVER);
+        await page.locator(TOPUP_AMOUNT_LOCATOR).fill(TOPUP_AMOUNT);
         await page.getByRole('button', { name: 'doładuj telefon' }).click();
-        // await page.locator('#uniform-widget_1_topup_agreement span').click();
         await page.getByRole('checkbox', { name: ' zapoznałem się z regulaminem i akceptuję warunki' }).check();
-        await page.getByRole('button',{ name: 'doładuj telefon' }).click();
-        await page.getByTestId('close-button').click();
-        
-
-        await expect(page.locator('#show_messages')).toHaveText('Doładowanie wykonane! 150,00PLN na numer 500 xxx xxx');
-        
+        await page.getByRole('button', { name: 'doładuj telefon' }).click();
+        await page.getByTestId(CLOSE_BUTTON_LOCATOR).click();
+        await expect(page.locator(SHOW_MESSAGES_LOCATOR)).toHaveText(`Doładowanie wykonane! ${TOPUP_AMOUNT},00PLN na numer 500 xxx xxx`);
     });
 
 });
