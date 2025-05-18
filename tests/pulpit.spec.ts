@@ -23,7 +23,7 @@ const TOPUP_RECEIVER_LOCATOR = '#widget_1_topup_receiver';
 const TOPUP_AMOUNT_LOCATOR = '#widget_1_topup_amount';
 
 const expectedTransferMessage = `Przelew wykonany! Chuck Demobankowy - ${TRANSFER_AMOUNT},00PLN - zwrot srodkow`;
-const expectedTopupMessage = `Doładowanie wykonane! ${TOPUP_AMOUNT},00PLN na numer 500 xxx xxx`;
+const expectedTopupMessage = `Doładowanie wykonane! ${TOPUP_AMOUNT},00PLN na numer ${TOPUP_RECEIVER}`;
 
 test.describe('Pulpit tests', () => {
   // test.describe.configure({ retries: 3 })
