@@ -8,7 +8,7 @@ test.describe('Login Tests', () => {
   const USER_NAME_LOCATOR = 'user-name';
   const LOGOUT_BUTTON_LOCATOR = 'logout-button';
   const LOGIN = 'lukaszbo';
-  
+
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
