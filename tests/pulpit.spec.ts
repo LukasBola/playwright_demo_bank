@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-
 test.describe('Pulpit tests', () => {
   // test.describe.configure({ retries: 3 })
 
@@ -22,6 +21,7 @@ test.describe('Pulpit tests', () => {
   });
 
   test('quick payment data', async ({ page }) => {
+    const RECEIVER_ID = '2';
     const TRANSFER_AMOUNT = '150';
     const TRANSFER_TITLE = 'zwrot srodkow';
     const TRANSFER_RECEIVER_LOCATOR = '#widget_1_transfer_receiver';
@@ -31,7 +31,7 @@ test.describe('Pulpit tests', () => {
 
     // Act
 
-    await page.locator(TRANSFER_RECEIVER_LOCATOR).selectOption('2');
+    await page.locator(TRANSFER_RECEIVER_LOCATOR).selectOption(RECEIVER_ID);
     await page.locator(TRANSFER_AMOUNT_LOCATOR).fill(TRANSFER_AMOUNT);
     await page.locator(TRANSFER_TITLE_LOCATOR).fill(TRANSFER_TITLE);
     await page.getByRole('button', { name: 'wykonaj' }).click();
@@ -68,5 +68,35 @@ test.describe('Pulpit tests', () => {
     await expect(page.locator(SHOW_MESSAGES_LOCATOR)).toHaveText(
       expectedTopupMessage,
     );
+  });
+
+  test('correct balance successful mobile top-up', async ({ page }) => {
+    // Arrange
+    const TOPUP_RECEIVER = '500 xxx xxx';
+    const TOPUP_AMOUNT = '150';
+    const TOPUP_RECEIVER_LOCATOR = '#widget_1_topup_receiver';
+    const TOPUP_AMOUNT_LOCATOR = '#widget_1_topup_amount';
+    const expectedTopupMessage = `Doładowanie wykonane! ${TOPUP_AMOUNT},00PLN na numer ${TOPUP_RECEIVER}`;
+    const initialBalance = await page.locator('#money_value').innerText();
+    const expectedBalance = Number(initialBalance) - Number(TOPUP_AMOUNT);
+    // Act
+
+    await page.locator(TOPUP_RECEIVER_LOCATOR).selectOption(TOPUP_RECEIVER);
+    await page.locator(TOPUP_AMOUNT_LOCATOR).fill(TOPUP_AMOUNT);
+    await page.getByRole('button', { name: 'doładuj telefon' }).click();
+    await page
+      .getByRole('checkbox', {
+        name: ' zapoznałem się z regulaminem i akceptuję warunki',
+      })
+      .check();
+    await page.getByRole('button', { name: 'doładuj telefon' }).click();
+    await page.getByTestId(CLOSE_BUTTON_LOCATOR).click();
+
+    // Assert
+    await expect(page.locator(SHOW_MESSAGES_LOCATOR)).toHaveText(
+      expectedTopupMessage,
+    );
+
+    await expect(page.locator('#money_value')).toHaveText(`${expectedBalance}`);
   });
 });
