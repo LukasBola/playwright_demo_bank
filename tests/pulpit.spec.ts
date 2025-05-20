@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { loginData } from '../test-data/login.data';
 
 test.describe('Pulpit tests', () => {
   // test.describe.configure({ retries: 3 })
@@ -7,8 +8,8 @@ test.describe('Pulpit tests', () => {
   const SHOW_MESSAGES_LOCATOR = '#show_messages';
 
   test.beforeEach(async ({ page }) => {
-    const LOGIN = 'lukaszbo';
-    const PASSWORD = '1345lsda';
+    const LOGIN = loginData.username;
+    const PASSWORD = loginData.password;
     const LOGIN_INPUT_LOCATOR = 'login-input';
     const PASSWORD_INPUT_LOCATOR = 'password-input';
     const LOGIN_BUTTON_LOCATOR = 'login-button';

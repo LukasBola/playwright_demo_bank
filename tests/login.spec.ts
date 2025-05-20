@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { loginData } from '../test-data/login.data';
 
 test.describe('Login Tests', () => {
   // locators
@@ -7,7 +8,7 @@ test.describe('Login Tests', () => {
   const LOGIN_BUTTON_LOCATOR = 'login-button';
   const USER_NAME_LOCATOR = 'user-name';
   const LOGOUT_BUTTON_LOCATOR = 'logout-button';
-  const LOGIN = 'lukaszbo';
+  const LOGIN = loginData.username;
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
@@ -15,7 +16,7 @@ test.describe('Login Tests', () => {
 
   test('successful login with correct credentials', async ({ page }) => {
     // Arrange
-    const PASSWORD = '1345lsda';
+    const PASSWORD = loginData.password;
     const EXPECTED_USER_NAME = 'Jan Demobankowy';
     // Act
     await page.getByTestId(LOGIN_INPUT_LOCATOR).fill(LOGIN);
