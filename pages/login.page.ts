@@ -62,6 +62,7 @@ export class LoginPage {
   async login(username: string, password: string) {
     await this.fillLoginForm(username, password);
     await this.submitLogin();
+    await this.page.waitForLoadState('load');
   }
 
   async logout() {

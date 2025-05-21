@@ -6,6 +6,7 @@
   "scripts": {
     "test": "npx playwright test",
     "test:headed": "npx playwright test --headed",
+    "test:headed:repeat-each": "npx playwright test --headed --repeat-each=5",
     "test:pulpit:headed": "npm run test tests/pulpit.spec.ts -- --headed",
     "prettier": "npx prettier --write ."
   },
