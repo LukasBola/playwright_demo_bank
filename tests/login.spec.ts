@@ -1,66 +1,44 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/login.page';
 import { loginData } from '../test-data/login.data';
 
-test.describe('Login Tests', () => {
-  // locators
-  const LOGIN_INPUT_LOCATOR = 'login-input';
-  const PASSWORD_INPUT_LOCATOR = 'password-input';
-  const LOGIN_BUTTON_LOCATOR = 'login-button';
-  const USER_NAME_LOCATOR = 'user-name';
-  const LOGOUT_BUTTON_LOCATOR = 'logout-button';
-  const LOGIN = loginData.username;
+test.describe('Login Tests (Page Object Model)', () => {
+  let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    loginPage = new LoginPage(page);
+    await loginPage.goto();
   });
 
-  test('successful login with correct credentials', async ({ page }) => {
+  test('successful login with correct credentials', async () => {
     // Arrange
     const PASSWORD = loginData.password;
     const EXPECTED_USER_NAME = 'Jan Demobankowy';
     // Act
-    await page.getByTestId(LOGIN_INPUT_LOCATOR).fill(LOGIN);
-    await page.getByTestId(PASSWORD_INPUT_LOCATOR).fill(PASSWORD);
-    await page.getByTestId(LOGIN_BUTTON_LOCATOR).click();
-
-    await expect(page.getByTestId(USER_NAME_LOCATOR)).toBeVisible();
+    await loginPage.login(loginData.username, PASSWORD);
     // Assert
-    await expect(page.getByTestId(USER_NAME_LOCATOR)).toHaveText(
-      EXPECTED_USER_NAME,
-    );
+    await loginPage.assertUserLoggedIn(EXPECTED_USER_NAME);
     //After assert
-    await page.getByTestId(USER_NAME_LOCATOR).click();
-    await page.getByTestId(LOGOUT_BUTTON_LOCATOR).click();
+    await loginPage.logout();
   });
 
-  test('unsuccessful login with too short username', async ({ page }) => {
+  test('unsuccessful login with too short username', async () => {
     // Arrange
-    const SHORT_LOGIN = 'luksz';
-    const EXPECTED_LOGIN_ERROR = 'identyfikator ma min. 8 znaków';
-    const ERROR_LOGIN_ID_LOCATOR = 'error-login-id';
+    const TOO_SHORT_LOGIN = 'luksz';
     // Act
-    await page.getByTestId(LOGIN_INPUT_LOCATOR).fill(SHORT_LOGIN);
-    await page.getByTestId(LOGIN_INPUT_LOCATOR).blur();
-    await page.getByTestId(ERROR_LOGIN_ID_LOCATOR).isVisible();
+    await loginPage.fillLoginForm(TOO_SHORT_LOGIN, loginData.password);
+    await loginPage.loginInputField.blur();
     // Assert
-    await expect(page.getByTestId(ERROR_LOGIN_ID_LOCATOR)).toHaveText(
-      EXPECTED_LOGIN_ERROR,
-    );
+    await loginPage.assertLoginIdError();
   });
 
-  test('unsuccessful login with too short password', async ({ page }) => {
+  test('unsuccessful login with too short password', async () => {
     // Arrange
-    const SHORT_PASSWORD = '134';
-    const ERROR_LOGIN_PASSWORD_LOCATOR = 'error-login-password';
-    const EXPECTED_PASSWORD_ERROR = 'hasło ma min. 8 znaków';
+    const TOO_SHORT_PASSWORD = '134';
     // Act
-    await page.getByTestId(LOGIN_INPUT_LOCATOR).fill(LOGIN);
-    await page.getByTestId(PASSWORD_INPUT_LOCATOR).fill(SHORT_PASSWORD);
-    await page.getByTestId(PASSWORD_INPUT_LOCATOR).blur();
-
+    await loginPage.fillLoginForm(loginData.username, TOO_SHORT_PASSWORD);
+    await loginPage.passwordInputField.blur();
     // Assert
-    await expect(page.getByTestId(ERROR_LOGIN_PASSWORD_LOCATOR)).toHaveText(
-      EXPECTED_PASSWORD_ERROR,
-    );
+    await loginPage.assertLoginPasswordError();
   });
 });
