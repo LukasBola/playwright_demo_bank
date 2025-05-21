@@ -67,6 +67,7 @@ export class LoginPage {
   async logout() {
     await this.userName.click();
     await this.logoutButton.click();
+    await this.logoutButton.isHidden();
   }
 
   async assertUserLoggedIn(expectedName: string) {
