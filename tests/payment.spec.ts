@@ -19,7 +19,9 @@ test.describe('Pulpit tests', () => {
     await page.getByRole('link', { name: 'płatności' }).click();
   });
 
-  test('test', async ({ page }) => {
+  test('should send transfer and show confirmation message', async ({
+    page,
+  }) => {
     // Arrange
     const recipientName = 'Jan Nowak';
     const accountNumber = '12 3456 7890 1345 6789 0242 54354';
