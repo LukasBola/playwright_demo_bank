@@ -13,7 +13,7 @@ test.describe('Pulpit tests', () => {
     pulpitPage = new PulpitPage(page);
     await loginPage.goto();
     await loginPage.login(loginData.username, loginData.password);
-    await pulpitPage.goToPayments();
+    await pulpitPage.sideMenu.goToPayments();
   });
 
   test('should send transfer and show confirmation message', async ({

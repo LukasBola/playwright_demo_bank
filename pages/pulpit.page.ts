@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test';
+import { SideMenuComponent } from '../components/side-menu.component';
 
 export class PulpitPage {
   private readonly page: Page;
@@ -14,6 +15,7 @@ export class PulpitPage {
   private readonly topUpCheckbox: Locator;
   private readonly moneyValue: Locator;
   private readonly paymentsLink: Locator;
+  readonly sideMenu: SideMenuComponent;
 
   constructor(page: Page) {
     this.page = page;
@@ -31,6 +33,7 @@ export class PulpitPage {
     });
     this.moneyValue = page.locator('#money_value');
     this.paymentsLink = page.getByRole('link', { name: 'płatności' });
+    this.sideMenu = new SideMenuComponent(page);
   }
 
   get transferReceiverField() {
@@ -112,9 +115,5 @@ export class PulpitPage {
 
   async assertBalance(expected: number) {
     await expect(this.moneyValue).toHaveText(`${expected}`);
-  }
-
-  async goToPayments() {
-    await this.paymentsLink.click();
   }
 }
