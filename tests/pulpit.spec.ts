@@ -12,7 +12,6 @@ test.describe('Pulpit tests', () => {
     pulpitPage = new PulpitPage(page);
     await loginPage.goto();
     await loginPage.login(loginData.username, loginData.password);
-    await page.waitForLoadState('load');
   });
 
   test('quick payment data', async ({ page }) => {
