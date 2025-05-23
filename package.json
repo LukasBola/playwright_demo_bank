@@ -8,7 +8,12 @@
     "test:headed": "npx playwright test --headed",
     "test:headed:repeat-each": "npx playwright test --headed --repeat-each=5",
     "test:pulpit:headed": "npm run test tests/pulpit.spec.ts -- --headed",
-    "prettier": "npx prettier --write ."
+    "prettier": "npx prettier --write .",
+    "project:delete:playwright-reports": "rm -rf playwright-report*",
+    "downloads:delete:playwright-reports": "rm -rf ~/Downloads/playwright-report*",
+    "copy:playwright-report-from-downloads": "sh copy_last_playwright_report.sh ",
+    "open:playwright-report": "npx playwright show-report $(ls -1|grep \"playwright-report*\"| head -n 1)",
+    "kill:http://localhost:9323": "kill -9 $(lsof -t -i :9323)"
   },
   "keywords": [],
   "author": "",
