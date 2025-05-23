@@ -116,4 +116,12 @@ export class PulpitPage {
   async assertBalance(expected: number) {
     await expect(this.moneyValue).toHaveText(`${expected}`);
   }
+
+  async executeTopUpTransaction(receiver: string, amount: string) {
+    await this.fillMobileTopUp(receiver, amount);
+    await this.submitMobileTopUp();
+    await this.acceptTopUpAgreement();
+    await this.submitMobileTopUp();
+    await this.closePopup();
+  }
 }

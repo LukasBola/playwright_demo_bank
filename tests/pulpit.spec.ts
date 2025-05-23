@@ -39,11 +39,7 @@ test.describe('Pulpit tests', () => {
     const expectedTopUpMessage = `Doładowanie wykonane! ${TOP_UP_AMOUNT},00PLN na numer ${TOP_UP_RECEIVER}`;
 
     // Act
-    await pulpitPage.fillMobileTopUp(TOP_UP_RECEIVER, TOP_UP_AMOUNT);
-    await pulpitPage.submitMobileTopUp();
-    await pulpitPage.acceptTopUpAgreement();
-    await pulpitPage.submitMobileTopUp();
-    await pulpitPage.closePopup();
+    await pulpitPage.executeTopUpTransaction(TOP_UP_RECEIVER, TOP_UP_AMOUNT);
 
     // Assert
     await pulpitPage.assertTopUpMessage(expectedTopUpMessage);
@@ -57,11 +53,7 @@ test.describe('Pulpit tests', () => {
     const expectedBalance = initialBalance - Number(TOP_UP_AMOUNT);
 
     // Act
-    await pulpitPage.fillMobileTopUp(TOP_UP_RECEIVER, TOP_UP_AMOUNT);
-    await pulpitPage.submitMobileTopUp();
-    await pulpitPage.acceptTopUpAgreement();
-    await pulpitPage.submitMobileTopUp();
-    await pulpitPage.closePopup();
+    await pulpitPage.executeTopUpTransaction(TOP_UP_RECEIVER, TOP_UP_AMOUNT);
 
     // Assert
     await pulpitPage.assertTopUpMessage(expectedTopUpMessage);
