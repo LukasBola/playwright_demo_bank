@@ -8,6 +8,7 @@
     "test:headed": "npx playwright test --headed",
     "test:headed:repeat-each": "npx playwright test --headed --repeat-each=5",
     "test:pulpit:headed": "npm run test tests/pulpit.spec.ts -- --headed",
+    "test:with-tag": "npx playwright test --grep @smoke",
     "prettier": "npx prettier --write .",
     "project:delete:playwright-reports": "rm -rf playwright-report*",
     "downloads:delete:playwright-reports": "rm -rf ~/Downloads/playwright-report*",

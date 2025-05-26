@@ -16,7 +16,7 @@ test.describe('Pulpit tests', () => {
     await pulpitPage.sideMenu.goToPayments();
   });
 
-  test('should send transfer and show confirmation message', async ({
+  test('should send transfer and show confirmation message @payment @integration', async ({
     page,
   }) => {
     // Arrange

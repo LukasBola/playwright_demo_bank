@@ -10,7 +10,7 @@ test.describe('Login Tests (Page Object Model)', () => {
     await loginPage.goto();
   });
 
-  test('successful login with correct credentials', async () => {
+  test('successful login with correct credentials @login @smoke', async () => {
     // Arrange
     const PASSWORD = loginData.password;
     const EXPECTED_USER_NAME = 'Jan Demobankowy';
@@ -22,7 +22,7 @@ test.describe('Login Tests (Page Object Model)', () => {
     await loginPage.logout();
   });
 
-  test('unsuccessful login with too short username', async () => {
+  test('unsuccessful login with too short username @login', async () => {
     // Arrange
     const TOO_SHORT_LOGIN = 'luksz';
     // Act
@@ -32,7 +32,7 @@ test.describe('Login Tests (Page Object Model)', () => {
     await loginPage.assertLoginIdError();
   });
 
-  test('unsuccessful login with too short password', async () => {
+  test('unsuccessful login with too short password @login', async () => {
     // Arrange
     const TOO_SHORT_PASSWORD = '134';
     // Act
