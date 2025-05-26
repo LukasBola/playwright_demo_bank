@@ -16,26 +16,34 @@ test.describe('Pulpit tests', () => {
     await pulpitPage.sideMenu.goToPayments();
   });
 
-  test('should send transfer and show confirmation message @payment @integration', async ({
-    page,
-  }) => {
-    // Arrange
-    const recipientName = 'Jan Nowak';
-    const accountNumber = '12 3456 7890 1345 6789 0242 54354';
-    const transferAmount = '222';
-    const expectedTransferMessage = `Przelew wykonany! ${transferAmount},00PLN dla ${recipientName}`;
-    const paymentPage = new PaymentPage(page);
+  test(
+    'should send transfer and show confirmation message',
+    {
+      tag: ['@payment', '@integration'],
+      annotation: {
+        type: 'documentation',
+        description: 'https://example.com/integration-test',
+      },
+    },
+    async ({ page }) => {
+      // Arrange
+      const recipientName = 'Jan Nowak';
+      const accountNumber = '12 3456 7890 1345 6789 0242 54354';
+      const transferAmount = '222';
+      const expectedTransferMessage = `Przelew wykonany! ${transferAmount},00PLN dla ${recipientName}`;
+      const paymentPage = new PaymentPage(page);
 
-    // Act
-    await paymentPage.fillTransferForm(
-      recipientName,
-      accountNumber,
-      transferAmount,
-    );
-    await paymentPage.submitTransfer();
-    await paymentPage.closeConfirmation();
+      // Act
+      await paymentPage.fillTransferForm(
+        recipientName,
+        accountNumber,
+        transferAmount,
+      );
+      await paymentPage.submitTransfer();
+      await paymentPage.closeConfirmation();
 
-    // Assert
-    await paymentPage.assertTransferMessage(expectedTransferMessage);
-  });
+      // Assert
+      await paymentPage.assertTransferMessage(expectedTransferMessage);
+    },
+  );
 });
