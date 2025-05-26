@@ -24,68 +24,68 @@ export class LoginPage {
     this.errorLoginPassword = page.getByTestId('error-login-password');
   }
 
-  get loginInputField() {
+  get loginInputField(): Locator {
     return this.loginInput;
   }
-  get passwordInputField() {
+  get passwordInputField(): Locator {
     return this.passwordInput;
   }
-  get loginButtonField() {
+  get loginButtonField(): Locator {
     return this.loginButton;
   }
-  get userNameField() {
+  get userNameField(): Locator {
     return this.userName;
   }
-  get logoutButtonField() {
+  get logoutButtonField(): Locator {
     return this.logoutButton;
   }
-  get errorLoginIdField() {
+  get errorLoginIdField(): Locator {
     return this.errorLoginId;
   }
-  get errorLoginPasswordField() {
+  get errorLoginPasswordField(): Locator {
     return this.errorLoginPassword;
   }
 
-  async goto(url: string = '/') {
+  async goto(url: string = '/'): Promise<void> {
     await this.page.goto(url);
   }
 
-  async fillLoginForm(username: string, password: string) {
+  async fillLoginForm(username: string, password: string): Promise<void> {
     await this.loginInput.fill(username);
     await this.passwordInput.fill(password);
   }
 
-  async submitLogin() {
+  async submitLogin(): Promise<void> {
     await this.loginButton.click();
   }
 
-  async login(username: string, password: string) {
+  async login(username: string, password: string): Promise<void> {
     await this.fillLoginForm(username, password);
     await this.submitLogin();
     await this.page.waitForLoadState('load');
   }
 
-  async logout() {
+  async logout(): Promise<void> {
     await this.userName.click();
     await this.logoutButton.click();
     await this.logoutButton.isHidden();
   }
 
-  async assertUserLoggedIn(expectedName: string) {
+  async assertUserLoggedIn(expectedName: string): Promise<void> {
     await expect(this.userName).toBeVisible();
     await expect(this.userName).toHaveText(expectedName);
   }
 
   async assertLoginIdError(
     expectedError: string = LoginPage.DEFAULT_LOGIN_ERROR,
-  ) {
+  ): Promise<void> {
     await expect(this.errorLoginId).toBeVisible();
     await expect(this.errorLoginId).toHaveText(expectedError);
   }
 
   async assertLoginPasswordError(
     expectedError: string = LoginPage.DEFAULT_PASSWORD_ERROR,
-  ) {
+  ): Promise<void> {
     await expect(this.errorLoginPassword).toBeVisible();
     await expect(this.errorLoginPassword).toHaveText(expectedError);
   }

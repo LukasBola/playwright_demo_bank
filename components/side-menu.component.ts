@@ -27,53 +27,53 @@ export class SideMenuComponent {
     this.reportsLink = page.getByRole('link', { name: 'raporty', exact: true });
   }
 
-  get dashboardLinkField() {
+  get dashboardLinkField(): Locator {
     return this.dashboardLink;
   }
-  get quickTransferLinkField() {
+  get quickTransferLinkField(): Locator {
     return this.quickTransferLink;
   }
-  get mobileTopUpLinkField() {
+  get mobileTopUpLinkField(): Locator {
     return this.mobileTopUpLink;
   }
-  get financeManagerLinkField() {
+  get financeManagerLinkField(): Locator {
     return this.financeManagerLink;
   }
-  get personalAccountsLinkField() {
+  get personalAccountsLinkField(): Locator {
     return this.personalAccountsLink;
   }
-  get paymentsLinkField() {
+  get paymentsLinkField(): Locator {
     return this.paymentsLink;
   }
-  get reportsLinkField() {
+  get reportsLinkField(): Locator {
     return this.reportsLink;
   }
 
-  async goToDashboard() {
+  async goToDashboard(): Promise<void> {
     await this.dashboardLink.click();
     await this.page.waitForLoadState('load');
   }
-  async goToQuickTransfer() {
+  async goToQuickTransfer(): Promise<void> {
     await this.quickTransferLink.click();
     await this.page.waitForLoadState('load');
   }
-  async goToMobileTopUp() {
+  async goToMobileTopUp(): Promise<void> {
     await this.mobileTopUpLink.click();
     await this.page.waitForLoadState('load');
   }
-  async goToFinanceManager() {
+  async goToFinanceManager(): Promise<void> {
     await this.financeManagerLink.click();
     await this.page.waitForLoadState('load');
   }
-  async goToPersonalAccounts() {
+  async goToPersonalAccounts(): Promise<void> {
     await this.personalAccountsLink.click();
     await this.page.waitForLoadState('load');
   }
-  async goToPayments() {
+  async goToPayments(): Promise<void> {
     await this.paymentsLink.click();
     await this.page.waitForLoadState('load');
   }
-  async goToReports() {
+  async goToReports(): Promise<void> {
     await this.reportsLink.click();
     await this.page.waitForLoadState('load');
   }

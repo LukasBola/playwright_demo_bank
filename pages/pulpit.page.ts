@@ -36,75 +36,79 @@ export class PulpitPage {
     this.sideMenu = new SideMenuComponent(page);
   }
 
-  get transferReceiverField() {
+  get transferReceiverField(): Locator {
     return this.transferReceiver;
   }
-  get transferAmountField() {
+  get transferAmountField(): Locator {
     return this.transferAmount;
   }
-  get transferTitleField() {
+  get transferTitleField(): Locator {
     return this.transferTitle;
   }
-  get executeTransferButtonField() {
+  get executeTransferButtonField(): Locator {
     return this.executeTransferButton;
   }
-  get closeButtonField() {
+  get closeButtonField(): Locator {
     return this.closeButton;
   }
-  get showMessagesField() {
+  get showMessagesField(): Locator {
     return this.showMessages;
   }
-  get topUpReceiverField() {
+  get topUpReceiverField(): Locator {
     return this.topUpReceiver;
   }
-  get topUpAmountField() {
+  get topUpAmountField(): Locator {
     return this.topUpAmount;
   }
-  get topUpButtonField() {
+  get topUpButtonField(): Locator {
     return this.topUpButton;
   }
-  get topUpCheckboxField() {
+  get topUpCheckboxField(): Locator {
     return this.topUpCheckbox;
   }
-  get moneyValueField() {
+  get moneyValueField(): Locator {
     return this.moneyValue;
   }
-  get paymentsLinkField() {
+  get paymentsLinkField(): Locator {
     return this.paymentsLink;
   }
 
-  async fillQuickPayment(receiverId: string, amount: string, title: string) {
+  async fillQuickPayment(
+    receiverId: string,
+    amount: string,
+    title: string,
+  ): Promise<void> {
     await this.transferReceiver.selectOption(receiverId);
     await this.transferAmount.fill(amount);
     await this.transferTitle.fill(title);
   }
 
-  async submitQuickPayment() {
+  async submitQuickPayment(): Promise<void> {
     await this.executeTransferButton.click();
   }
 
-  async fillMobileTopUp(receiver: string, amount: string) {
+  async fillMobileTopUp(receiver: string, amount: string): Promise<void> {
     await this.topUpReceiver.selectOption(receiver);
     await this.topUpAmount.fill(amount);
   }
 
-  async acceptTopUpAgreement() {
+  async acceptTopUpAgreement(): Promise<void> {
     await this.topUpCheckbox.check();
   }
 
-  async submitMobileTopUp() {
+  async submitMobileTopUp(): Promise<void> {
     await this.topUpButton.click();
   }
 
-  async closePopup() {
+  async closePopup(): Promise<void> {
     await this.closeButton.click();
   }
 
-  async assertTransferMessage(expectedMessage: string) {
+  async assertTransferMessage(expectedMessage: string): Promise<void> {
     await expect(this.showMessages).toHaveText(expectedMessage);
   }
 
-  async assertTopUpMessage(expectedMessage: string) {
+  async assertTopUpMessage(expectedMessage: string): Promise<void> {
     await expect(this.showMessages).toHaveText(expectedMessage);
   }
 
@@ -113,11 +117,14 @@ export class PulpitPage {
     return Number(text.replace(/[^\d]/g, ''));
   }
 
-  async assertBalance(expected: number) {
+  async assertBalance(expected: number): Promise<void> {
     await expect(this.moneyValue).toHaveText(`${expected}`);
   }
 
-  async executeTopUpTransaction(receiver: string, amount: string) {
+  async executeTopUpTransaction(
+    receiver: string,
+    amount: string,
+  ): Promise<void> {
     await this.fillMobileTopUp(receiver, amount);
     await this.submitMobileTopUp();
     await this.acceptTopUpAgreement();

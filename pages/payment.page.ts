@@ -24,40 +24,44 @@ export class PaymentPage {
     this.sideMenu = new SideMenuComponent(page);
   }
 
-  get transferRecipientField() {
+  get transferRecipientField(): Locator {
     return this.transferRecipient;
   }
-  get accountTransferInputField() {
+  get accountTransferInputField(): Locator {
     return this.accountTransferInput;
   }
-  get transferAmountInputField() {
+  get transferAmountInputField(): Locator {
     return this.transferAmountInput;
   }
-  get executeTransferButtonField() {
+  get executeTransferButtonField(): Locator {
     return this.executeTransferButton;
   }
-  get closeButtonField() {
+  get closeButtonField(): Locator {
     return this.closeButton;
   }
-  get showMessagesField() {
+  get showMessagesField(): Locator {
     return this.showMessages;
   }
 
-  async fillTransferForm(recipient: string, account: string, amount: string) {
+  async fillTransferForm(
+    recipient: string,
+    account: string,
+    amount: string,
+  ): Promise<void> {
     await this.transferRecipient.fill(recipient);
     await this.accountTransferInput.fill(account);
     await this.transferAmountInput.fill(amount);
   }
 
-  async submitTransfer() {
+  async submitTransfer(): Promise<void> {
     await this.executeTransferButton.click();
   }
 
-  async closeConfirmation() {
+  async closeConfirmation(): Promise<void> {
     await this.closeButton.click();
   }
 
-  async assertTransferMessage(expectedMessage: string) {
+  async assertTransferMessage(expectedMessage: string): Promise<void> {
     await expect(this.showMessages).toHaveText(expectedMessage);
   }
 }
